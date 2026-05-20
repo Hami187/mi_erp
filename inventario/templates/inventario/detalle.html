@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ producto.nombre }} - Mi ERP{% endblock %}
+{% block page_title %}Detalle Producto{% endblock %}
+{% block menu_inventario %}active{% endblock %}
+
+{% block content %}
+
+<div style="max-width:600px;">
+
+    <a href="/inventario/" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:0.85rem;">
+        <i class="bi bi-arrow-left"></i> Volver a Inventario
+    </a>
+
+    <div style="
+        background: rgba(5,20,50,0.8);
+        border: 1px solid rgba(255,140,0,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 20px;
+        box-shadow: 0 0 30px rgba(200,100,0,0.1);
+    ">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+            <h4 style="color:#fff; font-weight:700;">{{ producto.nombre }}</h4>
+            <a href="/inventario/{{ producto.pk }}/editar/" style="
+                background: rgba(255,140,0,0.15);
+                border: 1px solid rgba(255,140,0,0.3);
+                border-radius: 8px;
+                padding: 7px 15px;
+                color: #ff8c00;
+                text-decoration: none;
+                font-size: 0.85rem;
+            "><i class="bi bi-pencil"></i> Editar</a>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Código</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ producto.codigo }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Categoría</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ producto.categoria }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Precio Compra</div>
+                <div style="color:#fff; font-size:0.95rem;">$ {{ producto.precio_compra }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Precio Venta</div>
+                <div style="color:#ff8c00; font-size:0.95rem;">$ {{ producto.precio_venta }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Stock</div>
+                <div style="font-size:0.95rem;">
+                    {% if producto.stock <= producto.stock_minimo %}
+                        <span style="color:#ff3c50;">{{ producto.stock }} ⚠️ Stock bajo</span>
+                    {% else %}
+                        <span style="color:#00dc82;">{{ producto.stock }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Stock Mínimo</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ producto.stock_minimo }}</div>
+            </div>
+            <div style="grid-column:1/-1;">
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Descripción</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ producto.descripcion }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

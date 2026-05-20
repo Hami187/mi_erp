@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ proveedor.nombre }} - Mi ERP{% endblock %}
+{% block page_title %}Detalle Proveedor{% endblock %}
+{% block menu_proveedores %}active{% endblock %}
+
+{% block content %}
+
+<div style="max-width:600px;">
+
+    <a href="/proveedores/" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:0.85rem;">
+        <i class="bi bi-arrow-left"></i> Volver a Proveedores
+    </a>
+
+    <div style="
+        background: rgba(5,20,50,0.8);
+        border: 1px solid rgba(0,220,130,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 20px;
+        box-shadow: 0 0 30px rgba(0,150,80,0.1);
+    ">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+            <h4 style="color:#fff; font-weight:700;">{{ proveedor.nombre }}</h4>
+            <a href="/proveedores/{{ proveedor.pk }}/editar/" style="
+                background: rgba(255,140,0,0.15);
+                border: 1px solid rgba(255,140,0,0.3);
+                border-radius: 8px;
+                padding: 7px 15px;
+                color: #ff8c00;
+                text-decoration: none;
+                font-size: 0.85rem;
+            "><i class="bi bi-pencil"></i> Editar</a>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">RUC</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ proveedor.ruc }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Email</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ proveedor.email }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Teléfono</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ proveedor.telefono }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Contacto</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ proveedor.contacto }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Estado</div>
+                <div style="color:#00dc82; font-size:0.95rem;">{% if proveedor.activo %}Activo{% else %}Inactivo{% endif %}</div>
+            </div>
+            <div style="grid-column:1/-1;">
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Dirección</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ proveedor.direccion }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

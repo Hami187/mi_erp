@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Mi ERP{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block menu_dashboard %}active{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4 col-sm-6">
+        <div class="stat-card card-blue">
+            <i class="bi bi-people card-icon"></i>
+            <span class="card-number">{{ total_clientes }}</span>
+            <span class="card-label">Clientes activos</span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="stat-card card-green">
+            <i class="bi bi-truck card-icon"></i>
+            <span class="card-number">{{ total_proveedores }}</span>
+            <span class="card-label">Proveedores activos</span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="stat-card card-orange">
+            <i class="bi bi-box card-icon"></i>
+            <span class="card-number">{{ total_productos }}</span>
+            <span class="card-label">Productos activos</span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="stat-card card-cyan">
+            <i class="bi bi-cart card-icon"></i>
+            <span class="card-number">{{ total_ventas }}</span>
+            <span class="card-label">Ventas completadas</span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="stat-card card-red">
+            <i class="bi bi-bag card-icon"></i>
+            <span class="card-number">{{ total_compras }}</span>
+            <span class="card-label">Compras recibidas</span>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="table-card">
+            <div class="table-card-header">
+                <i class="bi bi-cart"></i> Últimas Ventas
+            </div>
+            <table class="table-erp">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venta in ultimas_ventas %}
+                    <tr>
+                        <td>{{ venta.numero }}</td>
+                        <td>{{ venta.cliente }}</td>
+                        <td><span class="badge-{{ venta.estado }}">{{ venta.estado }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="table-card">
+            <div class="table-card-header">
+                <i class="bi bi-bag"></i> Últimas Compras
+            </div>
+            <table class="table-erp">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Proveedor</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for compra in ultimas_compras %}
+                    <tr>
+                        <td>{{ compra.numero }}</td>
+                        <td>{{ compra.proveedor }}</td>
+                        <td><span class="badge-{{ compra.estado }}">{{ compra.estado }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        background: rgba(5, 20, 50, 0.8);
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+    .stat-card:hover { transform: translateY(-5px); }
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+    }
+    .card-blue { border: 1px solid rgba(0,150,255,0.3); box-shadow: 0 0 30px rgba(0,100,255,0.1); }
+    .card-blue:hover { box-shadow: 0 0 50px rgba(0,150,255,0.3); }
+    .card-blue::before { background: linear-gradient(90deg, #0066ff, #00aaff); }
+    .card-blue .card-icon { color: #00aaff; text-shadow: 0 0 20px #00aaff; }
+    .card-blue .card-number { color: #00aaff; text-shadow: 0 0 30px rgba(0,170,255,0.7); }
+    .card-green { border: 1px solid rgba(0,220,130,0.3); box-shadow: 0 0 30px rgba(0,180,100,0.1); }
+    .card-green:hover { box-shadow: 0 0 50px rgba(0,220,130,0.3); }
+    .card-green::before { background: linear-gradient(90deg, #00b368, #00dc82); }
+    .card-green .card-icon { color: #00dc82; text-shadow: 0 0 20px #00dc82; }
+    .card-green .card-number { color: #00dc82; text-shadow: 0 0 30px rgba(0,220,130,0.7); }
+    .card-orange { border: 1px solid rgba(255,140,0,0.3); box-shadow: 0 0 30px rgba(200,100,0,0.1); }
+    .card-orange:hover { box-shadow: 0 0 50px rgba(255,140,0,0.3); }
+    .card-orange::before { background: linear-gradient(90deg, #cc6600, #ff8c00); }
+    .card-orange .card-icon { color: #ff8c00; text-shadow: 0 0 20px #ff8c00; }
+    .card-orange .card-number { color: #ff8c00; text-shadow: 0 0 30px rgba(255,140,0,0.7); }
+    .card-cyan { border: 1px solid rgba(0,220,220,0.3); box-shadow: 0 0 30px rgba(0,180,180,0.1); }
+    .card-cyan:hover { box-shadow: 0 0 50px rgba(0,220,220,0.3); }
+    .card-cyan::before { background: linear-gradient(90deg, #00aaaa, #00dcdc); }
+    .card-cyan .card-icon { color: #00dcdc; text-shadow: 0 0 20px #00dcdc; }
+    .card-cyan .card-number { color: #00dcdc; text-shadow: 0 0 30px rgba(0,220,220,0.7); }
+    .card-red { border: 1px solid rgba(255,60,80,0.3); box-shadow: 0 0 30px rgba(200,30,50,0.1); }
+    .card-red:hover { box-shadow: 0 0 50px rgba(255,60,80,0.3); }
+    .card-red::before { background: linear-gradient(90deg, #cc1a30, #ff3c50); }
+    .card-red .card-icon { color: #ff3c50; text-shadow: 0 0 20px #ff3c50; }
+    .card-red .card-number { color: #ff3c50; text-shadow: 0 0 30px rgba(255,60,80,0.7); }
+    .card-icon { font-size: 2rem; margin-bottom: 15px; display: block; }
+    .card-number { font-size: 2.5rem; font-weight: 800; display: block; line-height: 1; margin-bottom: 5px; }
+    .card-label { color: rgba(255,255,255,0.5); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .table-card { background: rgba(5,20,50,0.8); border: 1px solid rgba(0,150,255,0.2); border-radius: 16px; overflow: hidden; margin-bottom: 25px; }
+    .table-card-header { background: rgba(0,80,180,0.2); padding: 15px 20px; border-bottom: 1px solid rgba(0,150,255,0.2); font-weight: 600; font-size: 0.95rem; color: #00aaff; letter-spacing: 1px; text-transform: uppercase; }
+    .table-erp { width: 100%; border-collapse: collapse; }
+    .table-erp thead th { padding: 12px 20px; color: rgba(255,255,255,0.4); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .table-erp tbody td { padding: 12px 20px; color: rgba(255,255,255,0.8); font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .table-erp tbody tr:hover { background: rgba(0,150,255,0.05); }
+    .badge-completada { background: rgba(0,220,130,0.15); color: #00dc82; border: 1px solid rgba(0,220,130,0.3); padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; }
+    .badge-pendiente { background: rgba(255,140,0,0.15); color: #ff8c00; border: 1px solid rgba(255,140,0,0.3); padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; }
+    .badge-recibida { background: rgba(0,150,255,0.15); color: #00aaff; border: 1px solid rgba(0,150,255,0.3); padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; }
+    .badge-anulada { background: rgba(255,60,80,0.15); color: #ff3c50; border: 1px solid rgba(255,60,80,0.3); padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; }
+</style>
+{% endblock %}

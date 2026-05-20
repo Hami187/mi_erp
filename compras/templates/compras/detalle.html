@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Compra {{ compra.numero }} - Mi ERP{% endblock %}
+{% block page_title %}Detalle Compra{% endblock %}
+{% block menu_compras %}active{% endblock %}
+
+{% block content %}
+
+<div style="max-width:800px;">
+
+    <a href="/compras/" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:0.85rem;">
+        <i class="bi bi-arrow-left"></i> Volver a Compras
+    </a>
+
+    <div style="
+        background: rgba(5,20,50,0.8);
+        border: 1px solid rgba(255,60,80,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 20px;
+        box-shadow: 0 0 30px rgba(200,30,50,0.1);
+    ">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+            <h4 style="color:#fff; font-weight:700;">Compra {{ compra.numero }}</h4>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:25px;">
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Proveedor</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ compra.proveedor }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Fecha</div>
+                <div style="color:#fff; font-size:0.95rem;">{{ compra.fecha|date:"d/m/Y H:i" }}</div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Estado</div>
+                <div style="font-size:0.95rem;">
+                    {% if compra.estado == 'recibida' %}
+                        <span style="color:#00dc82;">Recibida</span>
+                    {% elif compra.estado == 'pendiente' %}
+                        <span style="color:#ff8c00;">Pendiente</span>
+                    {% else %}
+                        <span style="color:#ff3c50;">Anulada</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div>
+                <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Total</div>
+                <div style="color:#ff3c50; font-size:1.2rem; font-weight:700;">$ {{ compra.total }}</div>
+            </div>
+        </div>
+
+        <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:15px;">Detalle de Productos</div>
+
+        <table style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr style="background: rgba(150,20,30,0.2);">
+                    <th style="padding:12px 15px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; text-align:left;">Producto</th>
+                    <th style="padding:12px 15px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; text-align:center;">Cantidad</th>
+                    <th style="padding:12px 15px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; text-align:right;">P. Unitario</th>
+                    <th style="padding:12px 15px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; text-align:right;">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles %}
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+                    <td style="padding:12px 15px; color:rgba(255,255,255,0.85); font-size:0.9rem;">{{ detalle.producto }}</td>
+                    <td style="padding:12px 15px; color:rgba(255,255,255,0.6); font-size:0.9rem; text-align:center;">{{ detalle.cantidad }}</td>
+                    <td style="padding:12px 15px; color:rgba(255,255,255,0.6); font-size:0.9rem; text-align:right;">$ {{ detalle.precio_unitario }}</td>
+                    <td style="padding:12px 15px; color:#ff3c50; font-size:0.9rem; text-align:right;">$ {{ detalle.subtotal }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" style="padding:12px 15px; color:rgba(255,255,255,0.4); font-size:0.9rem; text-align:right; font-weight:700;">TOTAL:</td>
+                    <td style="padding:12px 15px; color:#ff3c50; font-size:1rem; text-align:right; font-weight:700;">$ {{ compra.total }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if compra.observaciones %}
+        <div style="margin-top:20px;">
+            <div style="color:rgba(255,255,255,0.4); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Observaciones</div>
+            <div style="color:#fff; font-size:0.95rem;">{{ compra.observaciones }}</div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

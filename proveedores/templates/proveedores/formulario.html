@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }} - Mi ERP{% endblock %}
+{% block page_title %}{{ titulo }}{% endblock %}
+{% block menu_proveedores %}active{% endblock %}
+
+{% block content %}
+
+<div style="max-width:600px;">
+
+    <a href="/proveedores/" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:0.85rem;">
+        <i class="bi bi-arrow-left"></i> Volver a Proveedores
+    </a>
+
+    <div style="
+        background: rgba(5,20,50,0.8);
+        border: 1px solid rgba(0,220,130,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 20px;
+        box-shadow: 0 0 30px rgba(0,150,80,0.1);
+    ">
+        <h4 style="color:#fff; margin-bottom:25px; font-weight:700;">{{ titulo }}</h4>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Nombre</label>
+                <input type="text" name="nombre" value="{{ proveedor.nombre }}" required style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(0,220,130,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                " onfocus="this.style.borderColor='rgba(0,220,130,0.6)'" onblur="this.style.borderColor='rgba(0,220,130,0.2)'">
+            </div>
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">RUC</label>
+                <input type="text" name="ruc" value="{{ proveedor.ruc }}" required style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(0,220,130,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                " onfocus="this.style.borderColor='rgba(0,220,130,0.6)'" onblur="this.style.borderColor='rgba(0,220,130,0.2)'">
+            </div>
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Email</label>
+                <input type="email" name="email" value="{{ proveedor.email }}" style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(0,220,130,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                " onfocus="this.style.borderColor='rgba(0,220,130,0.6)'" onblur="this.style.borderColor='rgba(0,220,130,0.2)'">
+            </div>
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Teléfono</label>
+                <input type="text" name="telefono" value="{{ proveedor.telefono }}" style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(0,220,130,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                " onfocus="this.style.borderColor='rgba(0,220,130,0.6)'" onblur="this.style.borderColor='rgba(0,220,130,0.2)'">
+            </div>
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Contacto</label>
+                <input type="text" name="contacto" value="{{ proveedor.contacto }}" style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(0,220,130,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                " onfocus="this.style.borderColor='rgba(0,220,130,0.6)'" onblur="this.style.borderColor='rgba(0,220,130,0.2)'">
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Dirección</label>
+                <textarea name="direccion" rows="3" style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(0,220,130,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none; resize:none;
+                " onfocus="this.style.borderColor='rgba(0,220,130,0.6)'" onblur="this.style.borderColor='rgba(0,220,130,0.2)'">{{ proveedor.direccion }}</textarea>
+            </div>
+
+            <button type="submit" style="
+                width:100%; background:linear-gradient(135deg, #006633, #00aa55);
+                border:none; border-radius:10px; padding:13px;
+                color:#fff; font-size:1rem; font-weight:600;
+                cursor:pointer; box-shadow:0 0 20px rgba(0,150,80,0.3);
+                text-transform:uppercase; letter-spacing:1px;
+            ">
+                <i class="bi bi-check-circle"></i> Guardar
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

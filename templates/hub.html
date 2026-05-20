@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi ERP - Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #020818;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(26, 54, 120, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(180, 100, 20, 0.3) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 50, 120, 0.2) 0%, transparent 60%);
+        }
+
+        /* PARTICLES */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: #00aaff;
+            border-radius: 50%;
+            animation: float linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        /* HUB CONTAINER */
+        .hub-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        /* CENTER BRAIN */
+        .hub-center {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background: radial-gradient(circle, rgba(0, 100, 255, 0.4), rgba(0, 30, 80, 0.9));
+            border: 2px solid rgba(0, 180, 255, 0.6);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 0 40px rgba(0, 150, 255, 0.5),
+                0 0 80px rgba(0, 100, 255, 0.3),
+                inset 0 0 30px rgba(0, 150, 255, 0.2);
+            z-index: 10;
+            animation: pulse 3s ease-in-out infinite;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 40px rgba(0,150,255,0.5), 0 0 80px rgba(0,100,255,0.3); }
+            50% { box-shadow: 0 0 60px rgba(0,180,255,0.8), 0 0 120px rgba(0,150,255,0.5); }
+        }
+
+        .hub-center i {
+            font-size: 2.5rem;
+            color: #00aaff;
+            text-shadow: 0 0 30px #00aaff;
+            margin-bottom: 8px;
+        }
+
+        .hub-center span {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* MODULE CARDS */
+        .module-card {
+            position: absolute;
+            width: 130px;
+            height: 110px;
+            background: rgba(3, 15, 40, 0.9);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+
+        .module-card:hover {
+            transform: scale(1.1);
+            z-index: 20;
+        }
+
+        .module-card i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .module-card span {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* BLUE */
+        .card-blue {
+            border: 1px solid rgba(0, 150, 255, 0.5);
+            box-shadow: 0 0 25px rgba(0, 100, 255, 0.2);
+        }
+        .card-blue:hover { box-shadow: 0 0 40px rgba(0, 150, 255, 0.5); }
+        .card-blue i { color: #00aaff; text-shadow: 0 0 15px #00aaff; }
+
+        /* GREEN */
+        .card-green {
+            border: 1px solid rgba(0, 220, 130, 0.5);
+            box-shadow: 0 0 25px rgba(0, 180, 100, 0.2);
+        }
+        .card-green:hover { box-shadow: 0 0 40px rgba(0, 220, 130, 0.5); }
+        .card-green i { color: #00dc82; text-shadow: 0 0 15px #00dc82; }
+
+        /* ORANGE */
+        .card-orange {
+            border: 1px solid rgba(255, 140, 0, 0.5);
+            box-shadow: 0 0 25px rgba(200, 100, 0, 0.2);
+        }
+        .card-orange:hover { box-shadow: 0 0 40px rgba(255, 140, 0, 0.5); }
+        .card-orange i { color: #ff8c00; text-shadow: 0 0 15px #ff8c00; }
+
+        /* CYAN */
+        .card-cyan {
+            border: 1px solid rgba(0, 220, 220, 0.5);
+            box-shadow: 0 0 25px rgba(0, 180, 180, 0.2);
+        }
+        .card-cyan:hover { box-shadow: 0 0 40px rgba(0, 220, 220, 0.5); }
+        .card-cyan i { color: #00dcdc; text-shadow: 0 0 15px #00dcdc; }
+
+        /* RED */
+        .card-red {
+            border: 1px solid rgba(255, 60, 80, 0.5);
+            box-shadow: 0 0 25px rgba(200, 30, 50, 0.2);
+        }
+        .card-red:hover { box-shadow: 0 0 40px rgba(255, 60, 80, 0.5); }
+        .card-red i { color: #ff3c50; text-shadow: 0 0 15px #ff3c50; }
+
+        /* PURPLE */
+        .card-purple {
+            border: 1px solid rgba(180, 0, 255, 0.5);
+            box-shadow: 0 0 25px rgba(150, 0, 200, 0.2);
+        }
+        .card-purple:hover { box-shadow: 0 0 40px rgba(180, 0, 255, 0.5); }
+        .card-purple i { color: #bb00ff; text-shadow: 0 0 15px #bb00ff; }
+
+        /* YELLOW */
+        .card-yellow {
+            border: 1px solid rgba(255, 220, 0, 0.5);
+            box-shadow: 0 0 25px rgba(200, 170, 0, 0.2);
+        }
+        .card-yellow:hover { box-shadow: 0 0 40px rgba(255, 220, 0, 0.5); }
+        .card-yellow i { color: #ffdc00; text-shadow: 0 0 15px #ffdc00; }
+
+       /* POSITIONS - círculo perfecto alrededor del centro */
+        .pos-top        { transform: translate(-50%, -50%) translate(0px, -260px); }
+        .pos-top-right  { transform: translate(-50%, -50%) translate(225px, -150px); }
+        .pos-right      { transform: translate(-50%, -50%) translate(260px, 0px); }
+        .pos-bot-right  { transform: translate(-50%, -50%) translate(225px, 150px); }
+        .pos-bottom     { transform: translate(-50%, -50%) translate(0px, 260px); }
+        .pos-bot-left   { transform: translate(-50%, -50%) translate(-225px, 150px); }
+        .pos-left       { transform: translate(-50%, -50%) translate(-260px, 0px); }
+
+        .pos-top:hover        { transform: translate(-50%, -50%) translate(0px, -260px) scale(1.1); }
+        .pos-top-right:hover  { transform: translate(-50%, -50%) translate(225px, -150px) scale(1.1); }
+        .pos-right:hover      { transform: translate(-50%, -50%) translate(260px, 0px) scale(1.1); }
+        .pos-bot-right:hover  { transform: translate(-50%, -50%) translate(225px, 150px) scale(1.1); }
+        .pos-bottom:hover     { transform: translate(-50%, -50%) translate(0px, 260px) scale(1.1); }
+        .pos-bot-left:hover   { transform: translate(-50%, -50%) translate(-225px, 150px) scale(1.1); }
+        .pos-left:hover       { transform: translate(-50%, -50%) translate(-260px, 0px) scale(1.1); }
+        /* SVG LINES */
+        .hub-svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* LOGO */
+        .hub-logo {
+            position: fixed;
+            top: 25px;
+            left: 30px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0,150,255,0.8);
+            letter-spacing: 3px;
+            z-index: 100;
+        }
+
+        .hub-logo span { color: #00aaff; }
+
+        .hub-user {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            z-index: 100;
+        }
+
+        .hub-user i { color: #00aaff; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="hub-logo">MI<span>ERP</span></div>
+<div class="hub-user">
+    <i class="bi bi-person-circle"></i>
+    {{ request.user.username }}
+</div>
+
+<div class="hub-container">
+
+    <!-- SVG LINES -->
+    <svg class="hub-svg" id="hubSvg"></svg>
+
+    <!-- CENTER -->
+    <a href="/dashboard/" class="hub-center" id="center">
+        <i class="bi bi-cpu"></i>
+        <span>ERP Core</span>
+    </a>
+
+    <!-- MODULES -->
+    <a href="/admin/clientes/cliente/" class="module-card card-blue pos-top" id="mod-clientes">
+        <i class="bi bi-people"></i>
+        <span>Clientes</span>
+    </a>
+
+    <a href="/admin/proveedores/proveedor/" class="module-card card-green pos-top-right" id="mod-proveedores">
+        <i class="bi bi-truck"></i>
+        <span>Proveedores</span>
+    </a>
+
+    <a href="/admin/inventario/producto/" class="module-card card-orange pos-right" id="mod-inventario">
+        <i class="bi bi-box"></i>
+        <span>Inventario</span>
+    </a>
+
+    <a href="/admin/ventas/venta/" class="module-card card-cyan pos-bot-right" id="mod-ventas">
+        <i class="bi bi-cart"></i>
+        <span>Ventas</span>
+    </a>
+
+    <a href="/admin/compras/compra/" class="module-card card-red pos-bottom" id="mod-compras">
+        <i class="bi bi-bag"></i>
+        <span>Compras</span>
+    </a>
+
+    <a href="/admin/rrhh/empleado/" class="module-card card-purple pos-bot-left" id="mod-rrhh">
+        <i class="bi bi-person-badge"></i>
+        <span>RRHH</span>
+    </a>
+
+    <a href="/admin/contabilidad/cuentaporcobrar/" class="module-card card-yellow pos-left" id="mod-contabilidad">
+        <i class="bi bi-calculator"></i>
+        <span>Contabilidad</span>
+    </a>
+
+</div>
+
+<script>
+    // Partículas
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 50; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        p.style.width = (Math.random() * 3 + 1) + 'px';
+        p.style.height = p.style.width;
+        if (Math.random() > 0.7) p.style.background = '#ff8c00';
+        container.appendChild(p);
+    }
+
+    // Líneas SVG conectando centro con módulos
+    function drawLines() {
+        const svg = document.getElementById('hubSvg');
+        svg.innerHTML = '';
+
+        const center = document.getElementById('center');
+        const modules = document.querySelectorAll('.module-card');
+
+        const cx = parseFloat(center.style.left) + 65;
+        const cy = parseFloat(center.style.top) + 65;
+
+        const colors = ['#00aaff','#00dc82','#ff8c00','#00dcdc','#ff3c50','#bb00ff','#ffdc00'];
+
+        modules.forEach((mod, i) => {
+            const mx = parseFloat(mod.style.left) + 65;
+            const my = parseFloat(mod.style.top) + 55;
+
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', cx);
+            line.setAttribute('y1', cy);
+            line.setAttribute('x2', mx);
+            line.setAttribute('y2', my);
+            line.setAttribute('stroke', colors[i]);
+            line.setAttribute('stroke-width', '1');
+            line.setAttribute('stroke-opacity', '0.4');
+            line.setAttribute('stroke-dasharray', '5,5');
+            svg.appendChild(line);
+
+            const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            dot.setAttribute('cx', mx);
+            dot.setAttribute('cy', my);
+            dot.setAttribute('r', '4');
+            dot.setAttribute('fill', colors[i]);
+            dot.setAttribute('opacity', '0.6');
+            svg.appendChild(dot);
+        });
+    }
+
+    function positionModules() {
+        const modules = document.querySelectorAll('.module-card');
+        const total = modules.length;
+        const radius = 260;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        modules.forEach((mod, i) => {
+            const angle = (i * 2 * Math.PI / total) - Math.PI / 2;
+            const x = centerX + radius * Math.cos(angle) - 65;
+            const y = centerY + radius * Math.sin(angle) - 55;
+            mod.style.position = 'fixed';
+            mod.style.left = x + 'px';
+            mod.style.top = y + 'px';
+            mod.style.transform = 'none';
+        });
+
+        // Centro
+        const center = document.getElementById('center');
+        center.style.position = 'fixed';
+        center.style.left = (centerX - 65) + 'px';
+        center.style.top = (centerY - 65) + 'px';
+        center.style.transform = 'none';
+    }
+
+    window.addEventListener('load', () => { positionModules(); drawLines(); });
+    window.addEventListener('resize', () => { positionModules(); drawLines(); });
+</script>
+
+</body>
+</html>

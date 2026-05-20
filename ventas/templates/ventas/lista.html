@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Ventas - Mi ERP{% endblock %}
+{% block page_title %}Ventas{% endblock %}
+{% block menu_ventas %}active{% endblock %}
+
+{% block content %}
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+    <div>
+        <h3 style="color:#fff; font-weight:700;">Lista de Ventas</h3>
+        <p style="color:rgba(255,255,255,0.4); font-size:0.85rem;">Gestión de ventas</p>
+    </div>
+    <a href="/ventas/nuevo/" style="
+        background: linear-gradient(135deg, #00aaaa, #00dcdc);
+        border-radius: 10px;
+        padding: 10px 20px;
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 0 20px rgba(0,180,180,0.3);
+    ">
+        <i class="bi bi-plus-circle"></i> Nueva Venta
+    </a>
+</div>
+
+<div style="
+    background: rgba(5,20,50,0.8);
+    border: 1px solid rgba(0,220,220,0.2);
+    border-radius: 16px;
+    overflow: hidden;
+">
+    <table style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr style="background: rgba(0,120,120,0.2);">
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Número</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Cliente</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Fecha</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Total</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Estado</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:center;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta in ventas %}
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);" onmouseover="this.style.background='rgba(0,220,220,0.05)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:14px 20px; color:rgba(255,255,255,0.85); font-size:0.9rem;">{{ venta.numero }}</td>
+                <td style="padding:14px 20px; color:rgba(255,255,255,0.6); font-size:0.9rem;">{{ venta.cliente }}</td>
+                <td style="padding:14px 20px; color:rgba(255,255,255,0.6); font-size:0.9rem;">{{ venta.fecha|date:"d/m/Y" }}</td>
+                <td style="padding:14px 20px; color:#00dcdc; font-size:0.9rem;">$ {{ venta.total }}</td>
+                <td style="padding:14px 20px;">
+                    {% if venta.estado == 'completada' %}
+                        <span style="background:rgba(0,220,130,0.15); color:#00dc82; border:1px solid rgba(0,220,130,0.3); padding:3px 10px; border-radius:20px; font-size:0.75rem;">Completada</span>
+                    {% elif venta.estado == 'pendiente' %}
+                        <span style="background:rgba(255,140,0,0.15); color:#ff8c00; border:1px solid rgba(255,140,0,0.3); padding:3px 10px; border-radius:20px; font-size:0.75rem;">Pendiente</span>
+                    {% else %}
+                        <span style="background:rgba(255,60,80,0.15); color:#ff3c50; border:1px solid rgba(255,60,80,0.3); padding:3px 10px; border-radius:20px; font-size:0.75rem;">Anulada</span>
+                    {% endif %}
+                </td>
+                <td style="padding:14px 20px; text-align:center;">
+                    <a href="/ventas/{{ venta.pk }}/" style="color:#00dcdc; margin:0 5px; text-decoration:none;" title="Ver"><i class="bi bi-eye"></i></a>
+                    <a href="/ventas/pdf/{{ venta.pk }}/" style="color:#00dc82; margin:0 5px; text-decoration:none;" title="PDF" target="_blank"><i class="bi bi-file-pdf"></i></a>
+                    <a href="/ventas/{{ venta.pk }}/eliminar/" style="color:#ff3c50; margin:0 5px; text-decoration:none;" title="Anular" onclick="return confirm('¿Anular esta venta?')"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="padding:30px; text-align:center; color:rgba(255,255,255,0.3);">No hay ventas registradas</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

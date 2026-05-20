@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Nueva Compra - Mi ERP{% endblock %}
+{% block page_title %}Nueva Compra{% endblock %}
+{% block menu_compras %}active{% endblock %}
+
+{% block content %}
+
+<div style="max-width:800px;">
+
+    <a href="/compras/" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:0.85rem;">
+        <i class="bi bi-arrow-left"></i> Volver a Compras
+    </a>
+
+    <div style="
+        background: rgba(5,20,50,0.8);
+        border: 1px solid rgba(255,60,80,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        margin-top: 20px;
+        box-shadow: 0 0 30px rgba(200,30,50,0.1);
+    ">
+        <h4 style="color:#fff; margin-bottom:25px; font-weight:700;">Nueva Compra</h4>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:18px;">
+                <div>
+                    <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Número</label>
+                    <input type="text" name="numero" required style="
+                        width:100%; background:rgba(0,30,70,0.6);
+                        border:1px solid rgba(255,60,80,0.2); border-radius:10px;
+                        padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                    " onfocus="this.style.borderColor='rgba(255,60,80,0.6)'" onblur="this.style.borderColor='rgba(255,60,80,0.2)'">
+                </div>
+                <div>
+                    <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Proveedor</label>
+                    <select name="proveedor" style="
+                        width:100%; background:rgba(0,30,70,0.6);
+                        border:1px solid rgba(255,60,80,0.2); border-radius:10px;
+                        padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                    ">
+                        {% for proveedor in proveedores %}
+                        <option value="{{ proveedor.pk }}">{{ proveedor.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Estado</label>
+                <select name="estado" style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(255,60,80,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none;
+                ">
+                    <option value="pendiente">Pendiente</option>
+                    <option value="recibida">Recibida</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <label style="display:block; color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Observaciones</label>
+                <textarea name="observaciones" rows="2" style="
+                    width:100%; background:rgba(0,30,70,0.6);
+                    border:1px solid rgba(255,60,80,0.2); border-radius:10px;
+                    padding:12px 15px; color:#fff; font-size:0.95rem; outline:none; resize:none;
+                " onfocus="this.style.borderColor='rgba(255,60,80,0.6)'" onblur="this.style.borderColor='rgba(255,60,80,0.2)'"></textarea>
+            </div>
+
+            <div style="color:rgba(255,255,255,0.5); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:15px;">Productos</div>
+
+            <div id="detalles">
+                <div class="detalle-row" style="display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:10px; margin-bottom:10px;">
+                    <select name="producto" style="
+                        background:rgba(0,30,70,0.6);
+                        border:1px solid rgba(255,60,80,0.2); border-radius:10px;
+                        padding:10px 15px; color:#fff; font-size:0.9rem; outline:none;
+                    ">
+                        {% for producto in productos %}
+                        <option value="{{ producto.pk }}">{{ producto.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="cantidad" value="1" min="1" placeholder="Cantidad" style="
+                        background:rgba(0,30,70,0.6);
+                        border:1px solid rgba(255,60,80,0.2); border-radius:10px;
+                        padding:10px 15px; color:#fff; font-size:0.9rem; outline:none;
+                    ">
+                    <input type="number" name="precio_unitario" step="0.01" placeholder="Precio" style="
+                        background:rgba(0,30,70,0.6);
+                        border:1px solid rgba(255,60,80,0.2); border-radius:10px;
+                        padding:10px 15px; color:#fff; font-size:0.9rem; outline:none;
+                    ">
+                    <button type="button" onclick="this.parentElement.remove()" style="
+                        background:rgba(255,60,80,0.2); border:1px solid rgba(255,60,80,0.3);
+                        border-radius:10px; padding:10px 15px; color:#ff3c50; cursor:pointer;
+                    "><i class="bi bi-trash"></i></button>
+                </div>
+            </div>
+
+            <button type="button" onclick="agregarDetalle()" style="
+                background:rgba(255,60,80,0.1); border:1px solid rgba(255,60,80,0.3);
+                border-radius:10px; padding:10px 20px; color:#ff3c50;
+                cursor:pointer; font-size:0.9rem; margin-bottom:25px;
+            ">
+                <i class="bi bi-plus-circle"></i> Agregar Producto
+            </button>
+
+            <br>
+
+            <button type="submit" style="
+                width:100%; background:linear-gradient(135deg, #cc1a30, #ff3c50);
+                border:none; border-radius:10px; padding:13px;
+                color:#fff; font-size:1rem; font-weight:600;
+                cursor:pointer; box-shadow:0 0 20px rgba(200,30,50,0.3);
+                text-transform:uppercase; letter-spacing:1px;
+            ">
+                <i class="bi bi-check-circle"></i> Guardar Compra
+            </button>
+        </form>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    const productos = [
+        {% for producto in productos %}
+        {id: {{ producto.pk }}, nombre: "{{ producto.nombre }}", precio: {{ producto.precio_compra }}},
+        {% endfor %}
+    ];
+
+    function agregarDetalle() {
+        const opciones = productos.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
+        const row = document.createElement('div');
+        row.className = 'detalle-row';
+        row.style = 'display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:10px; margin-bottom:10px;';
+        row.innerHTML = `
+            <select name="producto" style="background:rgba(0,30,70,0.6); border:1px solid rgba(255,60,80,0.2); border-radius:10px; padding:10px 15px; color:#fff; font-size:0.9rem; outline:none;">${opciones}</select>
+            <input type="number" name="cantidad" value="1" min="1" placeholder="Cantidad" style="background:rgba(0,30,70,0.6); border:1px solid rgba(255,60,80,0.2); border-radius:10px; padding:10px 15px; color:#fff; font-size:0.9rem; outline:none;">
+            <input type="number" name="precio_unitario" step="0.01" placeholder="Precio" style="background:rgba(0,30,70,0.6); border:1px solid rgba(255,60,80,0.2); border-radius:10px; padding:10px 15px; color:#fff; font-size:0.9rem; outline:none;">
+            <button type="button" onclick="this.parentElement.remove()" style="background:rgba(255,60,80,0.2); border:1px solid rgba(255,60,80,0.3); border-radius:10px; padding:10px 15px; color:#ff3c50; cursor:pointer;"><i class="bi bi-trash"></i></button>
+        `;
+        document.getElementById('detalles').appendChild(row);
+    }
+</script>
+{% endblock %}
+
+{% endblock %}

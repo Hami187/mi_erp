@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Proveedores - Mi ERP{% endblock %}
+{% block page_title %}Proveedores{% endblock %}
+{% block menu_proveedores %}active{% endblock %}
+
+{% block content %}
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+    <div>
+        <h3 style="color:#fff; font-weight:700;">Lista de Proveedores</h3>
+        <p style="color:rgba(255,255,255,0.4); font-size:0.85rem;">Gestión de proveedores activos</p>
+    </div>
+    <a href="/proveedores/nuevo/" style="
+        background: linear-gradient(135deg, #006633, #00aa55);
+        border-radius: 10px;
+        padding: 10px 20px;
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 0 20px rgba(0,150,80,0.3);
+    ">
+        <i class="bi bi-plus-circle"></i> Nuevo Proveedor
+    </a>
+</div>
+
+<div style="
+    background: rgba(5,20,50,0.8);
+    border: 1px solid rgba(0,220,130,0.2);
+    border-radius: 16px;
+    overflow: hidden;
+">
+    <table style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr style="background: rgba(0,120,60,0.2);">
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Nombre</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">RUC</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Email</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:left;">Contacto</th>
+                <th style="padding:15px 20px; color:rgba(255,255,255,0.4); font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; text-align:center;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.03);" onmouseover="this.style.background='rgba(0,220,130,0.05)'" onmouseout="this.style.background='transparent'">
+                <td style="padding:14px 20px; color:rgba(255,255,255,0.85); font-size:0.9rem;">{{ proveedor.nombre }}</td>
+                <td style="padding:14px 20px; color:rgba(255,255,255,0.6); font-size:0.9rem;">{{ proveedor.ruc }}</td>
+                <td style="padding:14px 20px; color:rgba(255,255,255,0.6); font-size:0.9rem;">{{ proveedor.email }}</td>
+                <td style="padding:14px 20px; color:rgba(255,255,255,0.6); font-size:0.9rem;">{{ proveedor.contacto }}</td>
+                <td style="padding:14px 20px; text-align:center;">
+                    <a href="/proveedores/{{ proveedor.pk }}/" style="color:#00dc82; margin:0 5px; text-decoration:none;" title="Ver"><i class="bi bi-eye"></i></a>
+                    <a href="/proveedores/{{ proveedor.pk }}/editar/" style="color:#ff8c00; margin:0 5px; text-decoration:none;" title="Editar"><i class="bi bi-pencil"></i></a>
+                    <a href="/proveedores/{{ proveedor.pk }}/eliminar/" style="color:#ff3c50; margin:0 5px; text-decoration:none;" title="Eliminar" onclick="return confirm('¿Eliminar este proveedor?')"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="padding:30px; text-align:center; color:rgba(255,255,255,0.3);">No hay proveedores registrados</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
